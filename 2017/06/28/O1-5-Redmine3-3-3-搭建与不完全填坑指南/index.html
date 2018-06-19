@@ -518,7 +518,7 @@
 <li><code>Gemfile.lock</code> 放回 <code>$REDMINE</code></li>
 <li>执行以下命令</li>
 </ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="variable">$REDMINE</span>  </span><br><span class="line">bundle install --without development <span class="built_in">test</span> rmagick --<span class="built_in">local</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd $REDMINE  </span><br><span class="line">bundle install --without development test rmagick --local</span><br></pre></td></tr></table></figure>
 <p>修改数据库配置，然后就差不多可以运行redmine了。</p>
 <h1 id="填坑清单"><a href="#填坑清单" class="headerlink" title="填坑清单"></a>填坑清单</h1><h2 id="无法获取speck文件"><a href="#无法获取speck文件" class="headerlink" title="无法获取speck文件"></a>无法获取speck文件</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">D:\PM&gt;gem sources --add https://gems.ruby-china.org/</span><br><span class="line">Error fetching https://gems.ruby-china.org/:</span><br><span class="line">        no such name (https://gems.ruby-china.org/specs.4.8.gz)</span><br></pre></td></tr></table></figure>
 <p>网络缘故。GFW，或者工作地点的网络有代理。命令行下倒是可以配置代理，只是可惜不知道如何配置代理认证。怎么都连不上网。回家宽带一切都正常了。</p>
@@ -613,7 +613,7 @@
 <h3 id="环境依赖安装检查"><a href="#环境依赖安装检查" class="headerlink" title="环境依赖安装检查"></a>环境依赖安装检查</h3><p>因为本地已安装完毕gems包，所以这里不会碰上gem包欠缺。如提示缺包，请下载copy过来单独安装；</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bundle install --without development test rmagick</span><br></pre></td></tr></table></figure>
 <h3 id="数据库migrate"><a href="#数据库migrate" class="headerlink" title="数据库migrate"></a>数据库migrate</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rake db:migrate RAILS_ENV=production</span><br><span class="line">bundle exec rake generate_secret_token  RAILS_ENV=production</span><br></pre></td></tr></table></figure>
-<h3 id="尝试启动redmine"><a href="#尝试启动redmine" class="headerlink" title="尝试启动redmine"></a>尝试启动redmine</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails<span class="built_in"> server </span>webrick -e production -b 0.0.0.0 -p 3000</span><br></pre></td></tr></table></figure>
+<h3 id="尝试启动redmine"><a href="#尝试启动redmine" class="headerlink" title="尝试启动redmine"></a>尝试启动redmine</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rails server webrick -e production -b 0.0.0.0 -p 3000</span><br></pre></td></tr></table></figure>
 <h3 id="访问初始配置redmine"><a href="#访问初始配置redmine" class="headerlink" title="访问初始配置redmine"></a>访问初始配置redmine</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:3000   ##或者 http://yourserverip:3000</span><br></pre></td></tr></table></figure>
 <ul>
 <li><p>正常启动后，依据提示，</p>
@@ -761,7 +761,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -809,7 +809,17 @@
                     
                       
                     
-                    <span class="site-state-item-count">10</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">12</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
