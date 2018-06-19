@@ -108,25 +108,25 @@
 
 
 
-  <meta name="description" content="项目引入了zookeeper，甲方一时提供不了开发用的zookeeper服务器。只能我们自己在开发服务器上自行搭建。因处内网，所以还是选择了直接上镜像，不用面对一堆依赖包和环境污染问题。 笔记本验证MacBook，本地已有docker环境。zookeeper版本是需要最新的稳定版3.4.12；查了dockerhub，直接引用3.4的标签即可； 下载镜像1ChinaDreams:docker-pro">
-<meta name="keywords" content="离线,docker,CentOS7.2,zookeeper3.4">
+  <meta name="description" content="项目目前选型是前后端分离开发，其中前端使用AntDesign pro。 根据和一线工程师沟通，引入mock技术搭建json-server，可以快速模拟调用后端接口，实现增删查改以及复杂的业务逻辑。不用等后端开发完毕，配合rap2接口管理系统，前后端统一约束，而且前端不用手工造数：可以从配置好正则的接口生成（来自rap2接口服务器的支持）。 原计划引入Rap2后，将其作为Json-server，尝试">
+<meta name="keywords" content="docker,centos7.2,mock,json-server,前端">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker快速搭建zookeeper3.4集群">
-<meta property="og:url" content="http://opsdev.fun/2018/06/19/O1-8-40-Docker快速搭建zookeeper集群/index.html">
+<meta property="og:title" content="Docker快速搭建mock-server">
+<meta property="og:url" content="http://opsdev.fun/2018/06/19/O1-8-50-Docker快速搭建mock-server/index.html">
 <meta property="og:site_name" content="AnInputForce">
-<meta property="og:description" content="项目引入了zookeeper，甲方一时提供不了开发用的zookeeper服务器。只能我们自己在开发服务器上自行搭建。因处内网，所以还是选择了直接上镜像，不用面对一堆依赖包和环境污染问题。 笔记本验证MacBook，本地已有docker环境。zookeeper版本是需要最新的稳定版3.4.12；查了dockerhub，直接引用3.4的标签即可； 下载镜像1ChinaDreams:docker-pro">
+<meta property="og:description" content="项目目前选型是前后端分离开发，其中前端使用AntDesign pro。 根据和一线工程师沟通，引入mock技术搭建json-server，可以快速模拟调用后端接口，实现增删查改以及复杂的业务逻辑。不用等后端开发完毕，配合rap2接口管理系统，前后端统一约束，而且前端不用手工造数：可以从配置好正则的接口生成（来自rap2接口服务器的支持）。 原计划引入Rap2后，将其作为Json-server，尝试">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2018-06-19T12:52:06.023Z">
+<meta property="og:updated_time" content="2018-06-19T13:08:46.456Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker快速搭建zookeeper3.4集群">
-<meta name="twitter:description" content="项目引入了zookeeper，甲方一时提供不了开发用的zookeeper服务器。只能我们自己在开发服务器上自行搭建。因处内网，所以还是选择了直接上镜像，不用面对一堆依赖包和环境污染问题。 笔记本验证MacBook，本地已有docker环境。zookeeper版本是需要最新的稳定版3.4.12；查了dockerhub，直接引用3.4的标签即可； 下载镜像1ChinaDreams:docker-pro">
+<meta name="twitter:title" content="Docker快速搭建mock-server">
+<meta name="twitter:description" content="项目目前选型是前后端分离开发，其中前端使用AntDesign pro。 根据和一线工程师沟通，引入mock技术搭建json-server，可以快速模拟调用后端接口，实现增删查改以及复杂的业务逻辑。不用等后端开发完毕，配合rap2接口管理系统，前后端统一约束，而且前端不用手工造数：可以从配置好正则的接口生成（来自rap2接口服务器的支持）。 原计划引入Rap2后，将其作为Json-server，尝试">
 
 
 
 
 
 
-  <link rel="canonical" href="http://opsdev.fun/2018/06/19/O1-8-40-Docker快速搭建zookeeper集群/"/>
+  <link rel="canonical" href="http://opsdev.fun/2018/06/19/O1-8-50-Docker快速搭建mock-server/"/>
 
 
 
@@ -136,7 +136,7 @@
   };
 </script>
 
-  <title>Docker快速搭建zookeeper3.4集群 | AnInputForce</title>
+  <title>Docker快速搭建mock-server | AnInputForce</title>
   
 
 
@@ -309,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://opsdev.fun/2018/06/19/O1-8-40-Docker快速搭建zookeeper集群/">
+    <link itemprop="mainEntityOfPage" href="http://opsdev.fun/2018/06/19/O1-8-50-Docker快速搭建mock-server/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kang.cunhua">
@@ -326,7 +326,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker快速搭建zookeeper3.4集群
+          <h1 class="post-title" itemprop="name headline">Docker快速搭建mock-server
               
             
           </h1>
@@ -351,13 +351,9 @@
                 
               
 
-              <time title="创建时间：2018-06-19 15:37:00 / 修改时间：20:52:06" itemprop="dateCreated datePublished" datetime="2018-06-19T15:37:00+08:00">2018-06-19</time>
+              <time title="创建时间：2018-06-19 21:08:46" itemprop="dateCreated datePublished" datetime="2018-06-19T21:08:46+08:00">2018-06-19</time>
             
 
-            
-              
-
-              
             
           </span>
 
@@ -388,8 +384,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/06/19/O1-8-40-Docker快速搭建zookeeper集群/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/06/19/O1-8-40-Docker快速搭建zookeeper集群/" itemprop="commentCount"></span>
+                <a href="/2018/06/19/O1-8-50-Docker快速搭建mock-server/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2018/06/19/O1-8-50-Docker快速搭建mock-server/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -397,7 +393,7 @@
 
           
           
-             <span id="/2018/06/19/O1-8-40-Docker快速搭建zookeeper集群/" class="leancloud_visitors" data-flag-title="Docker快速搭建zookeeper3.4集群">
+             <span id="/2018/06/19/O1-8-50-Docker快速搭建mock-server/" class="leancloud_visitors" data-flag-title="Docker快速搭建mock-server">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -428,25 +424,31 @@
       
 
       
-        <p>项目引入了zookeeper，甲方一时提供不了开发用的zookeeper服务器。只能我们自己在开发服务器上自行搭建。因处内网，所以还是选择了直接上镜像，不用面对一堆依赖包和环境污染问题。</p>
-<h1 id="笔记本验证"><a href="#笔记本验证" class="headerlink" title="笔记本验证"></a>笔记本验证</h1><p>MacBook，本地已有docker环境。zookeeper版本是需要最新的稳定版3.4.12；查了dockerhub，直接引用3.4的标签即可；</p>
-<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ChinaDreams:docker-project kangcunhua$ docker pull zookeeper:3.4</span><br></pre></td></tr></table></figure>
-<h2 id="引入docker-compose"><a href="#引入docker-compose" class="headerlink" title="引入docker-compose"></a>引入docker-compose</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ChinaDreams:docker-project kangcunhua$ mkdir zookeeper3.4 &amp;&amp; cd zookeeper3.4</span><br><span class="line">ChinaDreams:zookeeper3.4 kangcunhua$ vi docker-compose.yml</span><br></pre></td></tr></table></figure>
-<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ChinaDreams:zookeeper3.4 kangcunhua$ docker-compose up</span><br></pre></td></tr></table></figure>
-<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>使用echo stat | nc 127.0.0.1 port来查看节点Mode是follower还是leader以及是否启动。此处对外暴露端口是2181,2182,2183;</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">ChinaDreams:zookeeper3.4.10 kangcunhua$ echo stat | nc 127.0.0.1 2181</span><br><span class="line">Zookeeper version: 3.4.12-e5259e437540f349646870ea94dc2658c4e44b3b, built on 03/27/2018 03:55 GMT</span><br><span class="line">Clients:</span><br><span class="line"> /192.168.32.1:55790[0](queued=0,recved=1,sent=0)</span><br><span class="line"></span><br><span class="line">Latency min/avg/max: 0/0/0</span><br><span class="line">Received: 1</span><br><span class="line">Sent: 0</span><br><span class="line">Connections: 1</span><br><span class="line">Outstanding: 0</span><br><span class="line">Zxid: 0x100000000</span><br><span class="line">Mode: follower</span><br><span class="line">Node count: 4</span><br><span class="line">ChinaDreams:zookeeper3.4.10 kangcunhua$ echo stat | nc 127.0.0.1 2182</span><br><span class="line">Zookeeper version: 3.4.12-e5259e437540f349646870ea94dc2658c4e44b3b, built on 03/27/2018 03:55 GMT</span><br><span class="line">Clients:</span><br><span class="line"> /192.168.32.1:36896[0](queued=0,recved=1,sent=0)</span><br><span class="line"></span><br><span class="line">Latency min/avg/max: 0/0/0</span><br><span class="line">Received: 1</span><br><span class="line">Sent: 0</span><br><span class="line">Connections: 1</span><br><span class="line">Outstanding: 0</span><br><span class="line">Zxid: 0x100000000</span><br><span class="line">Mode: leader</span><br><span class="line">Node count: 4</span><br><span class="line">ChinaDreams:zookeeper3.4.10 kangcunhua$ echo stat | nc 127.0.0.1 2183</span><br><span class="line">Zookeeper version: 3.4.12-e5259e437540f349646870ea94dc2658c4e44b3b, built on 03/27/2018 03:55 GMT</span><br><span class="line">Clients:</span><br><span class="line"> /192.168.32.1:50086[0](queued=0,recved=1,sent=0)</span><br><span class="line"></span><br><span class="line">Latency min/avg/max: 0/0/0</span><br><span class="line">Received: 1</span><br><span class="line">Sent: 0</span><br><span class="line">Connections: 1</span><br><span class="line">Outstanding: 0</span><br><span class="line">Zxid: 0x0</span><br><span class="line">Mode: follower</span><br><span class="line">Node count: 4</span><br></pre></td></tr></table></figure>
-<h3 id="docker-compose-yml内容"><a href="#docker-compose-yml内容" class="headerlink" title="docker-compose.yml内容"></a>docker-compose.yml内容</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3.4'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  zoo1:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">zookeeper:3.4</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">zoo1</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="number">2181</span><span class="string">:2181</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="attr">      ZOO_MY_ID:</span> <span class="number">1</span></span><br><span class="line"><span class="attr">      ZOO_SERVERS:</span> <span class="string">server.1=0.0.0.0:2888:3888</span> <span class="string">server.2=zoo2:2888:3888</span> <span class="string">server.3=zoo3:2888:3888</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  zoo2:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">zookeeper:3.4</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">zoo2</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="number">2182</span><span class="string">:2181</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="attr">      ZOO_MY_ID:</span> <span class="number">2</span></span><br><span class="line"><span class="attr">      ZOO_SERVERS:</span> <span class="string">server.1=zoo1:2888:3888</span> <span class="string">server.2=0.0.0.0:2888:3888</span> <span class="string">server.3=zoo3:2888:3888</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  zoo3:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="attr">zookeeper:3.4</span></span><br><span class="line"><span class="attr">    restart:</span> <span class="string">always</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">zoo3</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="number">2183</span><span class="string">:2181</span></span><br><span class="line"><span class="attr">    environment:</span></span><br><span class="line"><span class="attr">      ZOO_MY_ID:</span> <span class="number">3</span></span><br><span class="line"><span class="attr">      ZOO_SERVERS:</span> <span class="string">server.1=zoo1:2888:3888</span> <span class="string">server.2=zoo2:2888:3888</span> <span class="string">server.3=0.0.0.0:2888:3888</span></span><br></pre></td></tr></table></figure>
-<h1 id="内网部署"><a href="#内网部署" class="headerlink" title="内网部署"></a>内网部署</h1><h2 id="导出镜像"><a href="#导出镜像" class="headerlink" title="导出镜像"></a>导出镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ChinaDreams:zookeeper3.4.10 Desktop$ docker save -o zookeeper3.4.tar zookeeper:3.4</span><br></pre></td></tr></table></figure>
-<p>将zookeeper3.4.tar以及包含docker-compose.yml的zookeeper3.4目录上传至内网；</p>
-<p>前者上传至docker-images目录，后者上传至docker-project目录。这两个目录我建在了home目录下。</p>
-<h2 id="导入镜像"><a href="#导入镜像" class="headerlink" title="导入镜像"></a>导入镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[dev@pma03 docker-images]# docker load -i zookeeper3.4.tar</span><br><span class="line">[dev@pma03 docker-images]# docker images | grep zoo</span><br></pre></td></tr></table></figure>
-<h3 id="启动-1"><a href="#启动-1" class="headerlink" title="启动"></a>启动</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[dev@pma03 zookeeper3.4]# docker-compose up -d</span><br></pre></td></tr></table></figure>
-<h3 id="验证-1"><a href="#验证-1" class="headerlink" title="验证"></a>验证</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[dev@pma03 zookeeper3.4]# echo stat | nc 127.0.0.1 2181</span><br><span class="line">[dev@pma03 zookeeper3.4]# echo stat | nc 127.0.0.1 2182</span><br><span class="line">[dev@pma03 zookeeper3.4]# echo stat | nc 127.0.0.1 2183</span><br></pre></td></tr></table></figure>
-<p>搞定，收工。发邮件，通知相关人等。</p>
+        <p>项目目前选型是前后端分离开发，其中前端使用AntDesign pro。</p>
+<p>根据和一线工程师沟通，引入mock技术搭建json-server，可以快速模拟调用后端接口，实现增删查改以及复杂的业务逻辑。不用等后端开发完毕，配合rap2接口管理系统，前后端统一约束，而且前端不用手工造数：可以从配置好正则的接口生成（来自rap2接口服务器的支持）。</p>
+<p>原计划引入Rap2后，将其作为Json-server，尝试了下，只实现了查询，增删改没搞定，更不要说复杂逻辑了。可能是贪心了。还是要引入Json-server支持；</p>
+<h1 id="外网准备"><a href="#外网准备" class="headerlink" title="外网准备"></a>外网准备</h1><p>目前node版本是9.11，查看了dockerhub，最新稳定版镜像也是这个版本；</p>
+<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ChinaDreams:Desktop kangcunhua$ docker pull node:alpine</span><br><span class="line">ChinaDreams:Desktop kangcunhua$ docker images | grep node</span><br></pre></td></tr></table></figure>
+<h2 id="导出镜像"><a href="#导出镜像" class="headerlink" title="导出镜像"></a>导出镜像</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ChinaDreams:Desktop kangcunhua$ docker save -o node9-alpline.tar node:alpine</span><br></pre></td></tr></table></figure>
+<h2 id="撰写脚本"><a href="#撰写脚本" class="headerlink" title="撰写脚本"></a>撰写脚本</h2><p>计划用docker-compose来管理，撰写”docker-compose.yml”脚本来启动。</p>
+<h3 id="新建docker-project目录"><a href="#新建docker-project目录" class="headerlink" title="新建docker-project目录"></a>新建docker-project目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ChinaDreams:docker-project kangcunhua$ mkdir mock-alpine &amp;&amp; cd mock-alpine</span><br><span class="line">ChinaDreams:docker-project kangcunhua$ vi docker-compose.yml</span><br></pre></td></tr></table></figure>
+<h3 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">version</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">	<span class="string">json-server：</span></span><br><span class="line">		<span class="attr">image:</span> <span class="attr">node:alpine</span></span><br><span class="line">		<span class="attr">container_name:</span> <span class="string">json-server</span></span><br><span class="line">		<span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">		<span class="attr">volumes:</span> </span><br><span class="line">			<span class="bullet">-</span> <span class="string">./custom:/usr/src/app/custom</span></span><br><span class="line">			<span class="bullet">-</span> <span class="string">./data:/usr/src/app/data</span></span><br><span class="line">			<span class="bullet">-</span> <span class="string">./node_modules:/usr/src/app/node_modules</span></span><br><span class="line">			<span class="bullet">-</span> <span class="string">./routes:/usr/src/app/routes</span></span><br><span class="line">			<span class="bullet">-</span> <span class="string">./auth.js:/usr/src/app/auth.js</span></span><br><span class="line">			<span class="bullet">-</span> <span class="string">./rule.js:/usr/src/app/rule.js</span></span><br><span class="line">			<span class="bullet">-</span> <span class="string">./server.js:/usr/src/app/server.js</span></span><br><span class="line">			</span><br><span class="line">		<span class="attr">working_dir:</span> <span class="string">/usr/src/app</span></span><br><span class="line">		<span class="attr">ports:</span></span><br><span class="line">			<span class="bullet">-</span> <span class="number">20000</span><span class="string">:20000</span></span><br><span class="line">		<span class="attr">command:</span> <span class="string">"node server.js"</span></span><br></pre></td></tr></table></figure>
+<p>注意：此处使用了一个新参数working_dir，相当于Dockerfile里的WORKDIR，来源于docker-compose run命令的参数；不加这个参数，提示“找不到server.js”。</p>
+<h1 id="内网实战"><a href="#内网实战" class="headerlink" title="内网实战"></a>内网实战</h1><p>将mock-alpine目录和node9-alpline.tar拷贝到内网。分别上传开发服务器docker-project和docker-images目录；</p>
+<p>注，docker-project和docker-images目录是自己建立用来管理dcoker-compose脚本和docker镜像的。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>还是那几步：导入镜像—&gt;启动—&gt;验证；</p>
+<h3 id="导入镜像"><a href="#导入镜像" class="headerlink" title="导入镜像"></a>导入镜像</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[dev@pma03 ~]# cd docker-images &amp;&amp; docker load -i node9-alpine.tar</span><br><span class="line">[dev@pma03 docker-images]# docker images | grep node</span><br></pre></td></tr></table></figure>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[dev@pma03 ~]# cd docker-project/mock-alpine</span><br><span class="line">[dev@pma03 mock-alpine]# docker-compose up -d</span><br></pre></td></tr></table></figure>
+<p>一般第一次启动使用”docker-compose up”命令查看输出，如果报错，及时处理。正常启动后可以”ctrl + c”停止服务，然后用”docker-compose up -d”后台启动即可。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>开发服务器上，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[dev@pma03 mock-alpine]# docker ps</span><br></pre></td></tr></table></figure>
+<p>查看是否正常启动json-server容器，端口映射是否正常；也可以”docker logs json-server”查看输出日志。</p>
+<p>来到内网云桌面（假设服务器IP是10.10.10.10），</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c:\User\kch&gt; curl 10.10.10.10:20000</span><br></pre></td></tr></table></figure>
+<p>搞定，发邮件通知相关人等。</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
-<li><a href="https://blog.csdn.net/sunpengqi11/article/details/78161693" target="_blank" rel="noopener">Docker部署Zookeeper集群</a></li>
-<li><a href="https://blog.csdn.net/sqandczm/article/details/78620825" target="_blank" rel="noopener">Docker中启动zookeeper</a></li>
-<li><a href="https://hub.docker.com/r/_/zookeeper/" target="_blank" rel="noopener">zookeeper</a></li>
+<li><a href="https://www.ddhigh.com/2017/11/01/docker-composer-nodejs.html" target="_blank" rel="noopener">使用docker-composer部署nodejs应用</a></li>
+<li><a href="https://www.jianshu.com/p/2217cfed29d7" target="_blank" rel="noopener">Docker Compose 配置文件详解</a></li>
 </ul>
 
       
@@ -468,13 +470,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/离线/" rel="tag"># 离线</a>
-          
             <a href="/tags/docker/" rel="tag"># docker</a>
           
-            <a href="/tags/CentOS7-2/" rel="tag"># CentOS7.2</a>
+            <a href="/tags/centos7-2/" rel="tag"># centos7.2</a>
           
-            <a href="/tags/zookeeper3-4/" rel="tag"># zookeeper3.4</a>
+            <a href="/tags/mock/" rel="tag"># mock</a>
+          
+            <a href="/tags/json-server/" rel="tag"># json-server</a>
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
           
         </div>
       
@@ -487,8 +491,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/09/O2-0-Docker验证Centos7-2离线安装Docker环境/" rel="next" title="Docker验证Centos7.2离线安装Docker环境">
-                <i class="fa fa-chevron-left"></i> Docker验证Centos7.2离线安装Docker环境
+              <a href="/2018/06/19/O1-8-40-Docker快速搭建zookeeper集群/" rel="next" title="Docker快速搭建zookeeper3.4集群">
+                <i class="fa fa-chevron-left"></i> Docker快速搭建zookeeper3.4集群
               </a>
             
           </div>
@@ -496,10 +500,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/06/19/O1-8-50-Docker快速搭建mock-server/" rel="prev" title="Docker快速搭建mock-server">
-                Docker快速搭建mock-server <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -670,7 +670,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#笔记本验证"><span class="nav-number">1.</span> <span class="nav-text">笔记本验证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载镜像"><span class="nav-number">1.1.</span> <span class="nav-text">下载镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引入docker-compose"><span class="nav-number">1.2.</span> <span class="nav-text">引入docker-compose</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">1.2.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">1.2.2.</span> <span class="nav-text">验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-compose-yml内容"><span class="nav-number">1.2.3.</span> <span class="nav-text">docker-compose.yml内容</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内网部署"><span class="nav-number">2.</span> <span class="nav-text">内网部署</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#导出镜像"><span class="nav-number">2.1.</span> <span class="nav-text">导出镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入镜像"><span class="nav-number">2.2.</span> <span class="nav-text">导入镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">验证</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#外网准备"><span class="nav-number">1.</span> <span class="nav-text">外网准备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#下载镜像"><span class="nav-number">1.1.</span> <span class="nav-text">下载镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导出镜像"><span class="nav-number">1.2.</span> <span class="nav-text">导出镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#撰写脚本"><span class="nav-number">1.3.</span> <span class="nav-text">撰写脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建docker-project目录"><span class="nav-number">1.3.1.</span> <span class="nav-text">新建docker-project目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">1.3.2.</span> <span class="nav-text">docker-compose.yml</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内网实战"><span class="nav-number">2.</span> <span class="nav-text">内网实战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实战"><span class="nav-number">2.1.</span> <span class="nav-text">实战</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#导入镜像"><span class="nav-number">2.1.1.</span> <span class="nav-text">导入镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动"><span class="nav-number">2.1.2.</span> <span class="nav-text">启动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">2.1.3.</span> <span class="nav-text">验证</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
